@@ -26,9 +26,6 @@ app.use(express.json())
    
     if (authorizationHeader != null) {
         const token = authorizationHeader.replace("Bearer ", "")
-
-
-
         jwt.verify(token, "secretkey96$2025",
             (error, content)=>{
                 
