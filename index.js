@@ -3,9 +3,13 @@ import mongoose from "mongoose"
 import userRouter from "./routes/userRouter.js"
 import productRouter from "./routes/productRouter.js"
 import jwt from "jsonwebtoken"
+import cors from "cors"
+import dotenv from "dotenv"
 
-const mongoURI = "mongodb+srv://personalproject:ssgamage@cluster0.mj40h8e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster"
+dotenv.config()
 
+
+const mongoURI = process.env.MONGO_URL
 
 mongoose.connect(mongoURI).then(
     ()=>{
@@ -16,6 +20,7 @@ mongoose.connect(mongoURI).then(
 
 const app = express()
 
+app.use(cors())
 
 app.use(express.json())
 
@@ -26,7 +31,7 @@ app.use(express.json())
    
     if (authorizationHeader != null) {
         const token = authorizationHeader.replace("Bearer ", "")
-        jwt.verify(token, "secretkey96$2025",
+        jwt.verify(token, process.env.JWT_SECRET,
             (error, content)=>{
                 
                 if (content == null){
@@ -51,8 +56,8 @@ app.use(express.json())
 )
 
 
-app.use("/users",userRouter)
-app.use("/product",productRouter)
+app.use("/api/users",userRouter)
+app.use("/api/products",productRouter)
 
 app.listen(3000 , 
     ()=>{

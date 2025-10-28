@@ -13,10 +13,9 @@ const productSchema = new mongoose.Schema(
         },
         altName : {
             type : [String],
-            default :[]
-
+            default : []
         },
-        description : {
+        discription : {
             type : String,
             required : true
         },
@@ -24,7 +23,7 @@ const productSchema = new mongoose.Schema(
             type : Number,
             required : true
         },
-        labledPrize: {
+        labledPrice: {
             type : Number ,
             required : true
         },
@@ -32,14 +31,20 @@ const productSchema = new mongoose.Schema(
             type : String,
             required : true
         },
-        catagory : {
+        category : {
             type : String,
             required : true
         },
+        model : {
+            type : String,
+            required : true,
+            default : "standerd"
+        },
+
         brand : {
             type : String,
             required : true,
-            default : "no brand"
+            default : "Genaric"
         },
         stock: {
             type : Number,
