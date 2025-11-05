@@ -26,9 +26,27 @@ export function createProduct(req,res){
     )
 }
 
-export function getAllProduct(req,res){
-    if(isAdmin(req)){
-        Product.find().then(
+export async function getAllProduct(req,res){
+    
+    
+    try{if(isAdmin(req)){
+        // Product.find().then(
+        //     (product)=>{
+        //         res.json(product)
+        //     }
+        // ).catch(
+        //     (error)=>{
+        //         res.status(500).json({
+        //             massage : "error fetching products",
+        //             error : error.massage
+        //         })
+        //     }
+            
+        // )
+        const products = await Product.find();
+        res.json(products);
+    }else{
+        Product.find({isAvailable : true}).then(
             (product)=>{
                 res.json(product)
             }
@@ -36,24 +54,18 @@ export function getAllProduct(req,res){
             (error)=>{
                 res.status(500).json({
                     massage : "error fetching products",
-                    error : error.massage
-                })
-            }
-            
-        )
-    }else{
-        Product.find({isAvailable : true}).then(
-            (product)=>{
-                res,json(product)
-            }
-        ).catch(
-            (error)=>{
-                res.status(500).json({
-                    massage : "error fetching products",
-                    error : error.massage
+                    error: error.massage
                 })
             })
-    }
+        }}catch{(error)=>{
+            res.status(500).json({
+                massage : "error fetching Products",
+                error : error.massage
+            })
+        }
+            
+        }
+    
     
 
 }
