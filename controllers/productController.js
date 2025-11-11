@@ -110,7 +110,7 @@ export function updateProduct(req,res){
 
 export function getProductByID(req,res){
     const productID =req.params.productID
-
+    console.log(req.params.productID)
     Product.findOne({productID : productID}).then
     ((product)=>{
         if (product == null){
