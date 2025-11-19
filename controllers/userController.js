@@ -34,11 +34,12 @@ export function loginUser(req,res){
     User.find({email : email}).then(
         (users)=>{
             if(users[0] == null){
-                res.json({
+                res.status(404).json({
                     message: "User not found"
                 })
             }else{
-                const user = users[0]            
+                const user = users[0]     
+                
 
                 const isPasswordCorrect = bcrypt.compareSync(password,user.password)
                 if(isPasswordCorrect){
@@ -68,7 +69,7 @@ export function loginUser(req,res){
             }
         }
     )
-}
+};
 export function isAdmin(req){
     if (req.user == null){
         return false
