@@ -103,4 +103,32 @@ export async function getOrders(req, res){
          const orders = await Order.find({email : req.user.email}).sort({date : -1})
             res.json(orders)
     }
+};
+export async function updateOrderStatus(req,res){
+    if (!isAdmin(req)) {
+        res.status(401).json({
+            massage : "unauthorized"
+        });
+        return;
+    }
+    try{
+        const orderId = req.params.orderId
+        const status = req.body.status
+        const notes = req.body.notes
+
+        await Order.updateOne(
+            {orderId : orderId},
+            {status : status ,notes : notes}
+
+        )
+        res.json({
+            massage : "order updated succuessfully"
+        })
+
+    }catch(error){
+        res.status(500).json({
+            massage : "error updating order status",
+            error : error.massage
+        })
+    }
 }
